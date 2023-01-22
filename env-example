@@ -209,6 +209,7 @@ DEVILBOX_UI_PROTECT=0
 ###
 ### The default username is 'devilbox'
 ###
+DEVILBOX_UI_USERNAME=devilbox
 DEVILBOX_UI_PASSWORD=password
 
 
@@ -265,6 +266,7 @@ DEVILBOX_HTTPD_MGMT_PASS=mypassword
 ### 1.1 Choose PHP Server Image
 ###
 ### Flavours are just different PHP-FPM images that are build on top of each other. 
+### Each layer adding more functionality. 
 ### This makes it easier to separate images based on certain criterias and allows the user to pick a flavor that suits.
 ###   https://github.com/devilbox/docker-php-fpm/blob/master/doc/flavours.md
 ###
@@ -274,7 +276,7 @@ DEVILBOX_HTTPD_MGMT_PASS=mypassword
 ###   * prod: Devilbox production image. 
 ###   * slim: Devilbox intranet-ready image. Similar to prod.
 ###   * work: Devilbox development image. Same as slim, but comes with lots of locally installed tools .
-PHP_FLAVOUR=prod
+PHP_FLAVOUR=work
 
 ### Note: PHP 5.2 is not officially supported. Intranet won't work (due to lack of namespace support).
 ###       PHP 5.2 only works with Apache 2.4, Nginx stable and Nginx mainline.

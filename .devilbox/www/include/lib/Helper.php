@@ -189,9 +189,10 @@ class Helper
 
 	public function login($username, $password)
 	{
+		$dvl_username = loadClass('Helper')->getEnv('DEVILBOX_UI_USERNAME');
 		$dvl_password = loadClass('Helper')->getEnv('DEVILBOX_UI_PASSWORD');
 
-		if ($username == 'devilbox' && $password == $dvl_password) {
+		if ($username == $dvl_username && $password == $dvl_password) {
 			$_SESSION['auth'] = 1;
 			return true;
 		}
