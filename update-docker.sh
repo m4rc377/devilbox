@@ -34,6 +34,15 @@ CWD="$(cd -P -- "$(dirname -- "$0")" && pwd -P)"
 
 
 ###
+### Path of devilbox environment
+###
+ENV="${CWD}/.env"
+if [ ! -f "${CWD}/.env" ]; then
+	cp "${CWD}/env-example" "${ENV}"
+fi
+
+
+###
 ### BIND
 ###
 if [ "${WHICH}" = "all" ] || [ "${WHICH}" = "bind" ]; then
@@ -47,7 +56,7 @@ fi
 ###
 if [ "${WHICH}" = "all" ] || [ "${WHICH}" = "php" ]; then
 	SUFFIX="$( grep -E '^\s+image:\s+devilbox/php-fpm' "${CWD}/docker-compose.yml" | sed 's/.*}//g' )"
-	IMAGES="$( grep -Eo '^#*PHP_SERVER=[.0-9]+' "${CWD}/env-example" | sed 's/.*=//g' )"
+	IMAGES="$( grep -Eo '^#*PHP_SERVER=[.0-9]+' "${ENV}" | sed 's/.*=//g' )"
 	echo "${IMAGES}" | while read version ; do
 		docker pull devilbox/php-fpm:${version}${SUFFIX}
 	done
@@ -59,7 +68,7 @@ fi
 ###
 if [ "${WHICH}" = "all" ] || [ "${WHICH}" = "httpd" ]; then
 	SUFFIX="$( grep -E '^\s+image:\s+devilbox/\${HTTPD_SERVER' "${CWD}/docker-compose.yml" | sed 's/.*}-//g' )"
-	IMAGES="$( grep -Eo '^#*HTTPD_SERVER=[-a-z]+[.0-9]*' "${CWD}/env-example" | sed 's/.*=//g' )"
+	IMAGES="$( grep -Eo '^#*HTTPD_SERVER=[-a-z]+[.0-9]*' "${ENV}" | sed 's/.*=//g' )"
 	echo "${IMAGES}" | while read version ; do
 		docker pull devilbox/${version}:${SUFFIX}
 	done
@@ -70,7 +79,7 @@ fi
 ### MYSQL
 ###
 if [ "${WHICH}" = "all" ] || [ "${WHICH}" = "mysql" ]; then
-	IMAGES="$( grep -Eo '^#*MYSQL_SERVER=[-a-z]+[.0-9]*' "${CWD}/env-example" | sed 's/.*=//g' )"
+	IMAGES="$( grep -Eo '^#*MYSQL_SERVER=[-a-z]+[.0-9]*' "${ENV}" | sed 's/.*=//g' )"
 	echo "${IMAGES}" | while read version ; do
 		docker pull devilbox/mysql:${version}
 	done
@@ -83,8 +92,5 @@ fi
 ### For all other non-base service, only download the currently enabled one
 ###
 if [ "${WHICH}" = "all" ] || [ "${WHICH}" = "rest" ]; then
-	if [ ! -f "${CWD}/.env" ]; then
-		cp "${CWD}/env-example" "${CWD}/.env"
-	fi
 	docker-compose --project-directory "${CWD}" --file "${CWD}/docker-compose.yml" pull
 fi
