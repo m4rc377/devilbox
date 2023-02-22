@@ -58,7 +58,7 @@ fi
 ### HTTPD
 ###
 if [ "${WHICH}" = "all" ] || [ "${WHICH}" = "httpd" ]; then
-	SUFFIX="$( grep -E '^\s+image:\s+devilbox/\${HTTPD_SERVER' "${CWD}/docker-compose.yml" | sed 's/.*://g' )"
+	SUFFIX="$( grep -E '^\s+image:\s+devilbox/\${HTTPD_SERVER' "${CWD}/docker-compose.yml" | sed 's/.*}-//g' )"
 	IMAGES="$( grep -Eo '^#*HTTPD_SERVER=[-a-z]+[.0-9]*' "${CWD}/env-example" | sed 's/.*=//g' )"
 	echo "${IMAGES}" | while read version ; do
 		docker pull devilbox/${version}:${SUFFIX}
