@@ -229,7 +229,7 @@ services:
   # Web Server
   # ------------------------------------------------------------
   httpd:
-    image: devilbox/${HTTPD_SERVER}:${HTTPD_FLAVOUR}-alpine-1.0
+    image: devilbox/${HTTPD_SERVER}:${HTTPD_FLAVOUR}-1.0
     hostname: httpd
 
     environment:
