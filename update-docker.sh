@@ -68,10 +68,8 @@ fi
 ###
 if [ "${WHICH}" = "all" ] || [ "${WHICH}" = "httpd" ]; then
 	SUFFIX="$( grep -E '^\s+image:\s+devilbox/\${HTTPD_SERVER' "${CWD}/docker-compose.yml" | sed 's/.*}-//g' )"
-	IMAGES="$( grep -Eo '^#*HTTPD_SERVER=[-a-z]+[.0-9]*' "${ENV}" | sed 's/.*=//g' )"
-	echo "${IMAGES}" | while read version ; do
-		docker pull devilbox/${version}:${SUFFIX}
-	done
+	IMAGES="$( grep -Eo '^*HTTPD_SERVER=[-a-z]+[.0-9]*' "${ENV}" | sed 's/.*=//g' )"
+	docker pull devilbox/${IMAGES}:${SUFFIX}
 fi
 
 
@@ -79,10 +77,8 @@ fi
 ### MYSQL
 ###
 if [ "${WHICH}" = "all" ] || [ "${WHICH}" = "mysql" ]; then
-	IMAGES="$( grep -Eo '^#*MYSQL_SERVER=[-a-z]+[.0-9]*' "${ENV}" | sed 's/.*=//g' )"
-	echo "${IMAGES}" | while read version ; do
-		docker pull devilbox/mysql:${version}
-	done
+	IMAGES="$( grep -Eo '^*MYSQL_SERVER=[-a-z]+[.0-9]*' "${ENV}" | sed 's/.*=//g' )"
+	docker pull devilbox/mysql:${IMAGES}
 fi
 
 
