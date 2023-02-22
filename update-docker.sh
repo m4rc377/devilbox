@@ -68,8 +68,9 @@ fi
 ###
 if [ "${WHICH}" = "all" ] || [ "${WHICH}" = "httpd" ]; then
 	SUFFIX="$( grep -E '^\s+image:\s+devilbox/\${HTTPD_SERVER' "${CWD}/docker-compose.yml" | sed 's/.*}-//g' )"
+	FLAVOUR="$( grep -Eo '^*HTTPD_FLAVOUR=[-a-z]+[.0-9]*' "${ENV}" | sed 's/.*=//g' )"
 	IMAGES="$( grep -Eo '^*HTTPD_SERVER=[-a-z]+[.0-9]*' "${ENV}" | sed 's/.*=//g' )"
-	docker pull devilbox/${IMAGES}:${SUFFIX}
+	docker pull devilbox/${IMAGES}:${FLAVOUR}-${SUFFIX}
 fi
 
 
